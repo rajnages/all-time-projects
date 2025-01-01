@@ -1,0 +1,31 @@
+{
+    "variables": {
+      "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+      "aws_region": "us-east-1",
+      "ami_name": "packer-example-{{timestamp}}"
+    },
+
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `aws_region`}}",
+        "source_ami": "ami-0e2c8caa4b6378d8c",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_name": "{{user `ami_name`}}",
+        "tags": {
+          "Name": "packer-example"
+        }
+      }
+    ],
+
+    "provisioners": [
+      {
+        "type": "shell",
+        "script": "./install-software.sh"
+      }
+    ]
+  }

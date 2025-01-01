@@ -1,0 +1,10 @@
+# Ignore Terraform files and folders
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.exe
+*.zip
+*.bin
+# Ignore AWS credentials
+.aws/
+*.env
