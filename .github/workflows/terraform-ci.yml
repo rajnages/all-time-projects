@@ -34,10 +34,23 @@ jobs:
     - name: Terraform Init
       run: terraform init -chdir=all-time-projects/modules/
 
-    # Terraform Plan (Dry run to see changes)
+    # Terraform Workspace (Select workspace for dev or prod)
+    - name: Terraform Workspace
+      run: terraform workspace select ${{ github.event.workspace }} -chdir=./modules/
+
+    # Set up .tfvars file based on workspace
+    - name: Set up variables file
+      run: |
+        if [[ "${{ github.event.workspace }}" == "dev" ]]; then
+          export TF_VARS_FILE="dev.tfvars"
+        elif [[ "${{ github.event.workspace }}" == "prod" ]]; then
+          export TF_VARS_FILE="prod.tfvars"
+        fi
+        echo "Using variables file: $TF_VARS_FILE"
+    # Terraform Plan (Dry run to see changes) with the corresponding .tfvars
     - name: Terraform Plan
-      run: terraform plan -chdir=all-time-projects/modules/
+      run: terraform plan -var-file=${{ env.TF_VARS_FILE }} -chdir=./modules/
 
     # Terraform Apply (Automatic apply if plan is successful)
     - name: Terraform Apply
-      run: terraform apply -auto-approve -chdir=all-time-projects/modules/
+      run: terraform apply -auto-approve -var-file=${{ env.TF_VARS_FILE }} -chdir=all-time-projects/modules/
