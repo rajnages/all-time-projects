@@ -24,3 +24,19 @@ module "vpc" {
   azs                 = var.azs
   private_subnet_cidr = var.private_subnet_cidr
 }
+
+module "security-groups" {
+  source = "./securiy-groups"
+  vpc_id = module.vpc.aws_vpc
+  sg_name = var.sg_name
+}
+
+module "ec2_instances" {
+  source              = "./ec2_instances"
+  vpc_id              = module.vpc.aws_vpc
+  public_subnet_ids   = module.vpc.aws_subnet
+  aws_security_group  = module.security-groups.aws_security_group
+  aws_instance_type   = var.aws_instance_type
+  key_name            = var.key_name
+  ami                 = var.ami
+}
