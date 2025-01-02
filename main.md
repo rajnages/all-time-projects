@@ -31,3 +31,6 @@ infrastructure resources like network,storage, vms in a consistent and automated
 # terraform taint and untaint:
   - Terraform taint is a command used to mark a resource as 'tainted,' meaning Terraform will destroy and recreate that resource during the next terraform apply. This is useful when you want to force a resource to be replaced, even if no changes are made to the configuration. For example, if a resource is in a broken or unhealthy state, tainting it ensures it's recreated.
   - On the other hand, terraform untaint is used to remove the 'taint' from a resource. If you mistakenly mark a resource as tainted, or if you change your mind about wanting to replace it, you can use terraform untaint
+
+# vault:
+- Vault is a tool developed by HashiCorp that is primarily used for securing sensitive data such as secrets, tokens, passwords, API keys, and encryption keys
