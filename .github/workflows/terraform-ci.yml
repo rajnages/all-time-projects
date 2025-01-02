@@ -32,7 +32,7 @@ jobs:
 
     # Terraform Initialization with custom module path
     - name: Terraform Init
-      run: terraform init -chdir=all-time-projects/modules/
+      run: terraform init -chdir=./modules/
 
     # Terraform Workspace (Select workspace for dev or prod)
     - name: Terraform Workspace
@@ -53,4 +53,4 @@ jobs:
 
     # Terraform Apply (Automatic apply if plan is successful)
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var-file=${{ env.TF_VARS_FILE }} -chdir=all-time-projects/modules/
+      run: terraform apply -auto-approve -var-file=${{ env.TF_VARS_FILE }} -chdir=./modules/
