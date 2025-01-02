@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket = "terraform-environments-workspaces"
-    key    = "environment/terraform.tfstate"
+    key    = "terraform.tfstate"
     region = "us-east-1"
   }
 }
