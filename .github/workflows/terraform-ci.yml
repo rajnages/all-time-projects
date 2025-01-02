@@ -74,14 +74,14 @@ jobs:
       - name: Terraform Plan
         if: ${{ github.event.inputs.action == 'plan' }}
         working-directory: modules
-        run: terraform plan -var-file=./modules/environments/${{ github.event.inputs.workspace }}.tfvars -input=false
+        run: terraform plan -var-file=environments/${{ github.event.inputs.workspace }}.tfvars -input=false
 
       - name: Terraform Apply
         if: ${{ github.event.inputs.action == 'apply' }}
         working-directory: modules
-        run: terraform apply -auto-approve -var-file=./modules/environments/${{ github.event.inputs.workspace }}.tfvars -input=false
+        run: terraform apply -auto-approve -var-file=environments/${{ github.event.inputs.workspace }}.tfvars -input=false
 
       - name: Terraform Destroy
         if: ${{ github.event.inputs.action == 'destroy' }}
         working-directory: modules
-        run: terraform destroy -auto-approve -var-file=./modules/environments/${{ github.event.inputs.workspace }}.tfvars -input=false
+        run: terraform destroy -auto-approve -var-file=environments/${{ github.event.inputs.workspace }}.tfvars -input=false
