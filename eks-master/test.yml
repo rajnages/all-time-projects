@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    environment: test
+  name: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      environment: test
+  template:
+    metadata:
+      labels:
+        environment: test
+    spec:
+      containers:
+      - image: nginx:1.16
+        name: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+  labels:
+    environment: test
+spec:
+  selector:
+    environment: test
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

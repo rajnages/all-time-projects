@@ -1,23 +1,11 @@
 apiVersion: v1
-Kind: Pod
-# All Metadata store in this section
+kind: Pod
 metadata:
-  name: pod-sample
-  # This is comminucate with selector
-  labels:
-    app: pod-sample
-    env: Development
-  annotations:
-    version: "v1.0"
-    description: "Production deployment of myapp"
+  name: busybox-test-pod
 spec:
-  replicas: 10
-  # labels are used to identify the pod
-  selector:
-    matchLabels:
-      app: pod-example
-  # 
-    template:
-      metadata:
-        labels:
-          app: pod-example
+  containers:
+    - name: busybox
+      image: ubuntu:latest
+      command:
+        - sleep
+        - "3600"  # Keep the pod running for 1 hour
