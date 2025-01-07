@@ -1,11 +1,82 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: busybox-test-pod
+  name: advanced-pod
+  labels:
+    app: my-app
+    environment: production
 spec:
   containers:
-    - name: busybox
-      image: ubuntu:latest
-      command:
-        - sleep
-        - "3600"  # Keep the pod running for 1 hour
+    - name: my-container
+      image: my-image:latest
+      ports:
+        - containerPort: 80
+      env:
+        - name: APP_ENV
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: my-database-secret
+              key: db-url
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "500m"
+        limits:
+          memory: "512Mi"
+          cpu: "1"
+      volumeMounts:
+        - mountPath: /data
+          name: my-volume
+          subPath: data
+        - mountPath: /etc/config
+          name: config-volume
+          subPath: config
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        failureThreshold: 3
+      readinessProbe:
+        httpGet:
+          path: /readiness
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        failureThreshold: 3
+  volumes:
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: my-pvc
+    - name: config-volume
+      configMap:
+        name: my-config-map
+  nodeSelector:
+    disktype: ssd
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - my-app
+          topologyKey: "kubernetes.io/hostname"
+  tolerations:
+    - key: "key1"
+      operator: "Equal"
+      value: "value1"
+      effect: "NoSchedule"
+  restartPolicy: Always
+  serviceAccountName: my-service-account
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+  priorityClassName: high-priority
+  imagePullSecrets:
+    - name: my-docker-secret

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc  # Name of the PersistentVolumeClaim for identification
+  labels:  # Key-value pairs to organize and filter PVCs
+    environment: production  # Specifies the environment (e.g., production, staging)
+    app: web-app  # Associates the PVC with a specific application
+spec:
+  accessModes:
+    - ReadWriteOnce  # Ensures only one node can read/write to the volume
+  resources:
+    requests:
+      storage: 10Gi  # Minimum storage size requested by the PVC
+  storageClassName: high-performance-sc  # Matches the StorageClass of the associated PV
+  selector:  # Optional: Ensures PVC is bound to a specific PV based on labels
+    matchLabels:
+      environment: production  # Filters for PVs in the production environment
+      app: web-app  # Selects PVs linked to the web-app application
+    matchExpressions:  # Advanced filtering options for more complex requirements
+      - key: type
+        operator: In  # Specifies the value must be within the defined set
+        values:
+          - high-performance  # Ensures only high-performance PVs are considered
+
+
+        

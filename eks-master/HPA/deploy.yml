@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: namespace
+metadata:
+  name: gradeapp
+  labels:
+    name: gradeapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gradeapp-deployment
+  namespace: gradeapp
+  labels:
+    app: gradeapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gradeapp
+  template:
+    metadata:
+      labels:
+        app: gradeapp
+    spec:
+      containers:
+        - name: grade-app
+          image: rslim087/kubernetes-course-grade-submission-portal
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5001

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  containers:
+  - name: example-container
+    image: nginx:latest
+    volumeMounts:
+      - name: config-volume     # This links to the volume defined at the pod level
+        mountPath: /etc/config  # The path inside the container where the volume will be mounted
+  volumes:
+    - name: config-volume       # This defines the volume at the pod level
+      configMap:
+        name: example-config     # The ConfigMap from which the volume will source data

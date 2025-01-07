@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mypv  # Name of the PersistentVolume (used for identification)
+  labels:  # Key-value pairs used for organizing and filtering resources
+    environment: production  # Indicates the environment (e.g., production, staging)
+    app: web-app  # Associates the PV with a specific application
+    type: high-performance  # Specifies the type of storage (e.g., high-performance for SSDs)
+spec:
+  capacity:
+    storage: 10Gi  # Total storage capacity of the volume (e.g., 10GiB)
+  volumeMode: Filesystem  # Defines whether the volume is a filesystem or a raw block device
+  accessModes:
+    - ReadWriteOnce  # Access mode allowing only one node to read/write to the volume
+  persistentVolumeReclaimPolicy: Retain  # Determines the behavior after a PVC is deleted
+    # Retain: Keeps the volume for manual cleanup (commonly used in production)
+    # Recycle: Deletes data and makes the PV available for reuse (deprecated in newer versions)
+    # Delete: Deletes the backend storage when the PVC is deleted
+  storageClassName: high-performance-sc  # Associates the PV with a StorageClass (e.g., SSD-backed)
+  mountOptions:
+    - noatime  # Disables updating file access times for better performance
+    - nobarrier  # Optimizes performance by disabling write barriers (use with caution)
+  # nodeAffinity:  # Ensures the PV is used by pods scheduled on specific nodes
+  #   required:  # Specifies mandatory node placement criteria
+  #     nodeSelectorTerms:
+  #       - matchExpressions:  # Defines conditions for node selection
+  #           - key: topology.kubernetes.io/zone  # Matches nodes based on their zone
+  #             operator: In  # Specifies that the value must be within the defined set
+  #             values:
+  #               - us-east-1a  # The zone where the PV is available
+  awsElasticBlockStore:  # Links the PV to an AWS Elastic Block Store (EBS) volume
+    volumeID: "vol-028fb0b02228cba62"  # Unique identifier of the AWS EBS volume
+    fsType: ext4  # Filesystem type to be used on the EBS volume (e.g., ext4, xfs)

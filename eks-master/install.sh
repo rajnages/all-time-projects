@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit on error
+set -e # Exit on error
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -31,6 +31,17 @@ install_docker() {
     echo -e "${GREEN}Docker installation completed! Version: $(docker --version)${NC}"
 }
 
+# Function to install AWS CLI
+install_aws_cli() {
+    echo -e "${GREEN}Installing AWS CLI...${NC}"
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    apt install unzip -y
+    unzip awscliv2.zip
+    sudo ./aws/install
+    rm awscliv2.zip
+    echo -e "${GREEN}AWS CLI installation completed! Version: $(aws --version)${NC}"
+}
+
 # Check for sudo privileges
 if [[ $EUID -ne 0 ]]; then
     echo -e "${RED}This script must be run with sudo privileges.${NC}"
@@ -41,10 +52,11 @@ fi
 install_eksctl
 install_kubectl
 install_docker
+install_aws_cli
 
 # Verify installations
-if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null; then
-    echo -e "${GREEN}eksctl, kubectl, and Docker are successfully installed!${NC}"
+if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null; then
+    echo -e "${GREEN}eksctl, kubectl, Docker, and AWS CLI are successfully installed!${NC}"
 else
     echo -e "${RED}Installation failed. Please check the logs and try again.${NC}"
     exit 1
