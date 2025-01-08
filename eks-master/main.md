@@ -32,7 +32,7 @@
                        --alb-ingress-access
 
 # secrets base64:
-echo -n AKIAQ3EGUSXWJEUMFWXO | base64
+echo -n  M1l2aUE4QjFqdG11QWhjbg== | base64 --decode
 echo -n G8Y+tGFKmN362swjqayulMd6mtQkRQV+F4kNx9C6 | base64
 
 base64:

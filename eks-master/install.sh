@@ -42,6 +42,21 @@ install_aws_cli() {
     echo -e "${GREEN}AWS CLI installation completed! Version: $(aws --version)${NC}"
 }
 
+# Function to install Helm
+install_helm() {
+    echo -e "${GREEN}Installing Helm...${NC}"
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    echo -e "${GREEN}Helm installation completed! Version: $(helm version --short)${NC}"
+}
+
+# Function to install Argo CD CLI
+install_argocd() {
+    echo -e "${GREEN}Installing Argo CD CLI...${NC}"
+    curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    chmod +x /usr/local/bin/argocd
+    echo -e "${GREEN}Argo CD CLI installation completed! Version: $(argocd version --client --short || echo 'Client version not available')${NC}"
+}
+
 # Check for sudo privileges
 if [[ $EUID -ne 0 ]]; then
     echo -e "${RED}This script must be run with sudo privileges.${NC}"
@@ -53,10 +68,12 @@ install_eksctl
 install_kubectl
 install_docker
 install_aws_cli
+install_helm
+install_argocd
 
 # Verify installations
-if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null; then
-    echo -e "${GREEN}eksctl, kubectl, Docker, and AWS CLI are successfully installed!${NC}"
+if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null && command -v helm >/dev/null && command -v argocd >/dev/null; then
+    echo -e "${GREEN}eksctl, kubectl, Docker, AWS CLI, Helm, and Argo CD CLI are successfully installed!${NC}"
 else
     echo -e "${RED}Installation failed. Please check the logs and try again.${NC}"
     exit 1

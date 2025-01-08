@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rajnages/all-time-projects.git
+    targetRevision: HEAD
+    path: eks-master/argocd/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook

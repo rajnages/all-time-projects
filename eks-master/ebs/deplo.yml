@@ -85,3 +85,5 @@ spec:
   ports:
     - port: 3306
   clusterIP: None # This means we are going to use Pod IP
+
+
