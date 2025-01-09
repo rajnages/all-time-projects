@@ -57,6 +57,17 @@ install_argocd() {
     echo -e "${GREEN}Argo CD CLI installation completed! Version: $(argocd version --client --short || echo 'Client version not available')${NC}"
 }
 
+# Function to install kubens
+install_kubens() {
+    echo -e "${GREEN}Installing kubens...${NC}"
+    curl -LO https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_x86_64.tar.gz
+    tar -xzf kubens_v0.9.5_linux_x86_64.tar.gz
+    sudo mv kubens /usr/local/bin/
+    sudo chmod +x /usr/local/bin/kubens
+    rm kubens_v0.9.5_linux_x86_64.tar.gz
+    echo -e "${GREEN}kubens installation completed! Version: $(kubens --help | head -n 1 || echo 'Version not available')${NC}"
+}
+
 # Check for sudo privileges
 if [[ $EUID -ne 0 ]]; then
     echo -e "${RED}This script must be run with sudo privileges.${NC}"
@@ -70,10 +81,11 @@ install_docker
 install_aws_cli
 install_helm
 install_argocd
+install_kubens
 
 # Verify installations
-if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null && command -v helm >/dev/null && command -v argocd >/dev/null; then
-    echo -e "${GREEN}eksctl, kubectl, Docker, AWS CLI, Helm, and Argo CD CLI are successfully installed!${NC}"
+if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null && command -v helm >/dev/null && command -v argocd >/dev/null && command -v kubens >/dev/null; then
+    echo -e "${GREEN}eksctl, kubectl, Docker, AWS CLI, Helm, Argo CD CLI, and kubens are successfully installed!${NC}"
 else
     echo -e "${RED}Installation failed. Please check the logs and try again.${NC}"
     exit 1
