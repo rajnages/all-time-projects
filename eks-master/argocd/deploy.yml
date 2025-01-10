@@ -1,23 +1,33 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: guestbook-ui
+apiVersion: apps/v1 # this is the apiGroupversion
+kind: Deployment # resource type
+metadata: # deployment level metadata
+  name: sample-one
   labels:
-    app: guestbook-ui
-    environment: dev
+    app: sample-one
+    environment: prod
+  anotations:
+    description: sample-one deployment
+
 spec:
-  replicas: 6
-  revisionHistoryLimit: 3
-  selector:
+  replicas: 6 # this specifies the number of pod replicas
+  strategy: # corrected spelling of "strategy"
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10 # corrected spelling of "minReadySecond"
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 600 # corrected capitalization of "ProgressDeadlineSeconds"
+  selector: # defines the labels used to match Pods
     matchLabels:
-      app: guestbook-ui
+      app: sample-one
   template:
     metadata:
       labels:
-        app: guestbook-ui
+        app: sample-one
     spec:
       containers:
-        - image: gcr.io/heptio-images/ks-guestbook-demo:0.2
-          name: guestbook-ui
-          ports:
+        - name: nginx
+          image: nginx:latest
+          ports: # corrected capitalization of "Port"
             - containerPort: 80

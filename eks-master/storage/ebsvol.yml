@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+      name: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        name: mongodb
+    spec:
+      containers:
+        - image: mongo:latest
+          name: mongodb
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: mongodb-data
+              mountPath: /data/db
+            # - name: mongodb-data2
+            #   mountPath: /tmp/db1
+            # - name: mongodb-data3
+            #   mountPath: /tmp/db2
+            # - name: mongodb-data4
+            #   mountPath: /tmp/db3
+      volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: task-pv-claim1
+      nodeSelector:
+        kubernetes.io/hostname: ip-192-168-22-225.ec2.internal
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: kubernetes.io/hostname
+      #               operator: In
+      #               values:
+      #                 - ip-192-168-22-225.ec2.internal
+      # nodeSelector:
+      #   {}
+      # kubernetes.io/hostname: ip-192-168-22-225.ec2.internal
+# db.movie.insert({"name":"Fast & Furious 1"})
+# db.movie.insert({"name":"Fast & Furious 2"})
+# db.movie.insert({"name":"Fast & Furious 3"})
+# db.movie.insert({"name":"Fast & Furious 4"})
+# db.movie.insert({"name":"Fast & Furious 5"})
+# db.movie.insert({"name":"Fast & Furious 6"})
+
+# > show dbs
+# > show collections
+# > db.movie.find()
+# kubectl get nodes -o json | jq '.items[].metadata.labels'

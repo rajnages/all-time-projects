@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: troubleshooting
+          image: kiran2361993/troubleshootingtools:v1
+          volumeMounts:
+            - name: myemptydir
+              mountPath: /etc/myemptydir
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /tmp/myemptydir
+              name: myemptydir
+      volumes:
+        - name: myemptydir
+          emptyDir: {}
+# for i in {1..10}; do echo $(date) > FILE$I; sleep 1; done
+# kubectl exec -it nginx-deployment-f569b6658-d6gf2 -c nginx -- bash -> multiple containers run this command

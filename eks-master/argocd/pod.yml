@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  labels:
+    app: app
+  anotations:
+    name: app
+    description: "This is for pods"
+spec:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  containers:
+    - name: nginx
+      image: nginx:latest
+      Ports:
+        - containerPort: 80

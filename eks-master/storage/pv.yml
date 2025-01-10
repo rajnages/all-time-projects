@@ -1,33 +1,89 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mypv  # Name of the PersistentVolume (used for identification)
-  labels:  # Key-value pairs used for organizing and filtering resources
-    environment: production  # Indicates the environment (e.g., production, staging)
-    app: web-app  # Associates the PV with a specific application
-    type: high-performance  # Specifies the type of storage (e.g., high-performance for SSDs)
+  name: aws-pv1
+  labels:
+    type: aws-pv1
 spec:
+  storageClassName: gp2
+  persistentVolumeReclaimPolicy: Delete
   capacity:
-    storage: 10Gi  # Total storage capacity of the volume (e.g., 10GiB)
-  volumeMode: Filesystem  # Defines whether the volume is a filesystem or a raw block device
+    storage: 2Gi
   accessModes:
-    - ReadWriteOnce  # Access mode allowing only one node to read/write to the volume
-  persistentVolumeReclaimPolicy: Retain  # Determines the behavior after a PVC is deleted
-    # Retain: Keeps the volume for manual cleanup (commonly used in production)
-    # Recycle: Deletes data and makes the PV available for reuse (deprecated in newer versions)
-    # Delete: Deletes the backend storage when the PVC is deleted
-  storageClassName: high-performance-sc  # Associates the PV with a StorageClass (e.g., SSD-backed)
-  mountOptions:
-    - noatime  # Disables updating file access times for better performance
-    - nobarrier  # Optimizes performance by disabling write barriers (use with caution)
-  # nodeAffinity:  # Ensures the PV is used by pods scheduled on specific nodes
-  #   required:  # Specifies mandatory node placement criteria
-  #     nodeSelectorTerms:
-  #       - matchExpressions:  # Defines conditions for node selection
-  #           - key: topology.kubernetes.io/zone  # Matches nodes based on their zone
-  #             operator: In  # Specifies that the value must be within the defined set
-  #             values:
-  #               - us-east-1a  # The zone where the PV is available
-  awsElasticBlockStore:  # Links the PV to an AWS Elastic Block Store (EBS) volume
-    volumeID: "vol-028fb0b02228cba62"  # Unique identifier of the AWS EBS volume
-    fsType: ext4  # Filesystem type to be used on the EBS volume (e.g., ext4, xfs)
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-0a4302ffa4b896fad
+    fsType: ext4
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aws-pv2
+  labels:
+    type: aws-pv2
+spec:
+  storageClassName: gp2
+  persistentVolumeReclaimPolicy: Delete
+  capacity:
+    storage: 4Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-03383941a331ed8aa
+    fsType: ext4
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aws-pv3
+  labels:
+    type: aws-pv3
+spec:
+  storageClassName: gp2
+  persistentVolumeReclaimPolicy: Delete
+  capacity:
+    storage: 6Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-05c109790d96ccbed
+    fsType: ext4
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aws-pv4
+  labels:
+    type: aws-pv4
+spec:
+  storageClassName: gp2
+  persistentVolumeReclaimPolicy: Delete
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-07d7e78d1a0c3e62a
+    fsType: ext4
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aws-pv5
+  labels:
+    type: aws-pv5
+spec:
+  storageClassName: gp2
+  persistentVolumeReclaimPolicy: Delete
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-0d0864d2cf3cef1c1
+    fsType: ext4
+# aws ec2 create-volume --volume-type gp2 --size 2 --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=KubernetesCluster,Value=cloudvishwakarma.in},{Key=Name,Value=aws-pv1}]' && aws ec2 create-volume --volume-type gp2 --size 4 --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=KubernetesCluster,Value=cloudvishwakarma.in},{Key=Name,Value=aws-pv2}]' && aws ec2 create-volume --volume-type gp2 --size 6 --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=KubernetesCluster,Value=cloudvishwakarma.in},{Key=Name,Value=aws-pv3}]' && aws ec2 create-volume --volume-type gp2 --size 8 --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=KubernetesCluster,Value=cloudvishwakarma.in},{Key=Name,Value=aws-pv4}]' && aws ec2 create-volume --volume-type gp2 --size 10 --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=KubernetesCluster,Value=cloudvishwakarma.in},{Key=Name,Value=aws-pv5}]'
