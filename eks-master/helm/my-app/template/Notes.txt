@@ -1,0 +1,10 @@
+/* This is notes.txt is used post deployments works and showing after runtime */
+{{ /* Root */ }}
+Welcome to {{ .Release.Name }}!
+Your application is running at:
+
+http://{{ .Release.Name }}.{{ .Values.namespace }}.svc.cluster.local:{{ .Values.service.port }}
+
+
+
+     

@@ -26,8 +26,11 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # # Set default AWS region (optional)
 # ENV AWS_DEFAULT_REGION=us-east-1
 
+
+
 # Set the working directory (optional)
 WORKDIR /root
 
 # Default command (optional, you can override when running the container)
 CMD ["bash"]
+
