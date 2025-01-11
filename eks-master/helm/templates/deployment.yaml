@@ -20,3 +20,5 @@ metadata:
     indenttest: "  {{- .Chart.Name | indent 4 -}}  "  
     # nindent function
     nindenttest: "  {{- .Chart.Name | nindent 4 -}}  " 
+spec:
+   
