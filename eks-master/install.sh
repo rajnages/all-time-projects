@@ -69,14 +69,14 @@ install_kubens() {
 }
 
 # Function to install Kustomize
-install_kustomize() {
-    echo -e "${GREEN}Installing Kustomize...${NC}"
-    curl -oL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.5.0/kustomize_v5.5.0_linux_arm64.tar.gz
-    tar -zxvf kustomize_v5.5.0_linux_arm64.tar.gz
-    mv kustomize /usr/local/bin/
-    rm kustomize_v5.5.0_linux_arm64.tar.gz
-    echo -e "${GREEN}Kustomize installation completed! Version: $(kustomize version || echo 'Version not available')${NC}"
-}
+# install_kustomize() {
+#     echo -e "${GREEN}Installing Kustomize...${NC}"
+#     curl -oL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.5.0/kustomize_v5.5.0_linux_arm64.tar.gz
+#     tar -zxvf kustomize_v5.5.0_linux_arm64.tar.gz
+#     mv kustomize /usr/local/bin/
+#     rm kustomize_v5.5.0_linux_arm64.tar.gz
+#     echo -e "${GREEN}Kustomize installation completed! Version: $(kustomize version || echo 'Version not available')${NC}"
+# }
 
 # Check for sudo privileges
 if [[ $EUID -ne 0 ]]; then
@@ -92,7 +92,7 @@ install_aws_cli
 install_helm
 install_argocd
 install_kubens
-install_kustomize
+# install_kustomize
 
 # Verify installations
 if command -v eksctl >/dev/null && command -v kubectl >/dev/null && command -v docker >/dev/null && command -v aws >/dev/null && command -v helm >/dev/null && command -v argocd >/dev/null && command -v kubens >/dev/null && command -v kustomize >/dev/null; then

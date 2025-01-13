@@ -23,7 +23,7 @@
                        --nodes-max=4 \
                        --node-volume-size=20 \
                        --ssh-access \
-                       --ssh-public-key=helm \
+                       --ssh-public-key=server \
                        --managed \
                        --asg-access \
                        --external-dns-access \

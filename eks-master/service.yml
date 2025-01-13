@@ -1,0 +1,50 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+# services "alertmanager-operated" was not valid:
+# * <nil>: Invalid value: "The edited file failed validation": yaml: line 2: mapping values are not allowed in this context
+#
+#i# Please edit the object below. Lines beginning with a '#' will be ignored,
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-01-13T04:48:36Z"
+  labels:
+    managed-by: prometheus-operator
+    operated-alertmanager: "true"
+  name: alertmanager-operated
+  namespace: monitoring
+  ownerReferences:
+    - apiVersion: monitoring.coreos.com/v1
+      kind: Alertmanager
+      name: monitoring-kube-prometheus-alertmanager
+      uid: e984dc2a-1275-46f9-9ead-ea0fc7f69878
+  resourceVersion: "7115"
+  uid: 5fe7e1ff-ae40-4130-bca6-e100dd0400af
+spec:
+  clusterIP: ""
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http-web
+      port: 9093
+      protocol: TCP
+      targetPort: http-web
+    - name: tcp-mesh
+      port: 9094
+      protocol: TCP
+      targetPort: 9094
+    - name: udp-mesh
+      port: 9094
+      protocol: UDP
+      targetPort: 9094
+  publishNotReadyAddresses: true
+  selector:
+    app.kubernetes.io/name: alertmanager
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
