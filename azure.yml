@@ -1,0 +1,35 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger: # trigger is used for branches triggering
+  paths:
+    inclue:
+      - result/*
+
+resources:
+  - repo: self
+
+variables: # defines reuseable variables
+  tag: "$(Build.BuildId)"
+
+stages:
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: "sample"
+        steps:
+          - task: Docker@2
+            displayName: Build an image
+            
+
+# stages -> stage -> jobs -> job -> steps
+# Explanation of the hierarchy:
+# stages: A pipeline can have multiple stages (e.g., Build, Test, Deploy).
+# stage: A single stage, which is a collection of jobs.
+# jobs: A stage can have multiple jobs that can run sequentially or in parallel.
+# job: A single unit of execution within a stage.
+# steps: The tasks or actions performed in a job, such as running scripts, tasks, or commands.

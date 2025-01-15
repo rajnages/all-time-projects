@@ -101,3 +101,24 @@ else
     echo -e "${RED}Installation failed. Please check the logs and try again.${NC}"
     exit 1
 fi
+
+# Step 1: Update the package index
+sudo apt-get update
+
+# Step 2: Install prerequisites
+sudo apt-get install -y curl lsb-release apt-transport-https
+
+# Step 3: Import the Microsoft signing key
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+# Step 4: Add the Azure CLI repository
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+# Step 5: Update the package index again
+sudo apt-get update
+
+# Step 6: Install Azure CLI
+sudo apt-get install azure-cli
+
+# Step 7: Verify installation
+az --version

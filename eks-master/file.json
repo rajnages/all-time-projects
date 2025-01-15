@@ -1,0 +1,75 @@
+{
+  "$schema": "https://TranslucentTB.github.io/settings.schema.json",
+  "desktop_appearance": {
+    "accent": "acrylic",
+    "color": "#1E1E1E88", // Modern translucent dark gray
+    "show_peek": true,
+    "show_line": true,
+    "blur_radius": 15.0
+  },
+  "visible_window_appearance": {
+    "enabled": true,
+    "accent": "acrylic",
+    "color": "#282C34AA", // Slightly darker for active windows
+    "show_peek": true,
+    "show_line": true,
+    "blur_radius": 12.0,
+    "rules": {
+      "window_class": {},
+      "window_title": {},
+      "process_name": {}
+    }
+  },
+  "maximized_window_appearance": {
+    "enabled": true,
+    "accent": "opaque",
+    "color": "#1E1E1EFF", // Solid dark gray for focus
+    "show_peek": false,
+    "show_line": true,
+    "blur_radius": 0.0,
+    "rules": {
+      "window_class": {},
+      "window_title": {},
+      "process_name": {}
+    }
+  },
+  "start_opened_appearance": {
+    "enabled": true,
+    "accent": "acrylic",
+    "color": "#3A3D41BB", // Subtle translucent effect
+    "show_peek": true,
+    "show_line": true,
+    "blur_radius": 20.0
+  },
+  "search_opened_appearance": {
+    "enabled": true,
+    "accent": "acrylic",
+    "color": "#404040CC", // Soft modern translucent gray
+    "show_peek": true,
+    "show_line": true,
+    "blur_radius": 18.0
+  },
+  "task_view_opened_appearance": {
+    "enabled": true,
+    "accent": "acrylic",
+    "color": "#333333AA", // Transparent dark gray for task view
+    "show_peek": false,
+    "show_line": true,
+    "blur_radius": 15.0
+  },
+  "battery_saver_appearance": {
+    "enabled": true,
+    "accent": "opaque",
+    "color": "#202020FF", // Solid dark for power saving
+    "show_peek": false,
+    "show_line": false,
+    "blur_radius": 0.0
+  },
+  "ignored_windows": {
+    "window_class": [],
+    "window_title": [],
+    "process_name": []
+  },
+  "disable_saving": false,
+  "verbosity": "warn"
+}
